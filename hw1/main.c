@@ -4,20 +4,22 @@
 #define VECTOR_LEN 3
 typedef struct Data {
     int v[VECTOR_LEN];
-    int pattern;
+    int pattern;	// 1表示w1, 2表示w2
 } Data;
-Data Dataset[N] = {
+// 训练数据
+Data Dataset[N] = {		
         {{0, 0, 1}, 1},
         {{0, 1, 1}, 1},
         {{1, 0, 1}, -1},
         {{1, 1, 1}, -1}
 };
+// 向量的线性组合 a*v1+b*v2 结果保存到v1
 void vectorLinearCombination(int *v1, int *v2, int coe1, int coe2, int len) {
     for (int i = 0; i < len; i++) {
         v1[i] = coe1 * v1[i] + coe2 * v2[i];
     }
 }
-
+// 向量点积 rtype: int   结果的符号以'+','-',或'0'返回给参数flag
 int vectorMultiply(int *v1, int *v2, int len, char *flag) {
     int res = 0;
     for (int i = 0; i < len; i++) {
@@ -32,11 +34,13 @@ int vectorMultiply(int *v1, int *v2, int len, char *flag) {
     }
     return res;
 }
+// 打印表头
 void print_titles()
 {
     printf("训练样本      W(k)*X)    修正式   W(k+1)    迭代次数");
     printf("\n");
 }
+// 打印向量
 void print_vector(int *v, int len)
 {
     for(int i =0;i<len;i++)
@@ -44,6 +48,7 @@ void print_vector(int *v, int len)
         printf("%2d ",v[i]);
     }
 }
+// 打印一行数据
 void print_lines(int k, char flag, int*W, int iterations)
 {
     printf("X%d ",k+1);
@@ -57,6 +62,7 @@ void print_lines(int k, char flag, int*W, int iterations)
     print_vector(W,VECTOR_LEN);
     printf("\t%d\n",iterations);
 }
+// 打印判决函数
 void print_judge_func(int *v, int len)
 {
     printf("G(x)= ");
@@ -68,6 +74,7 @@ void print_judge_func(int *v, int len)
     }
     printf("\n");
 }
+
 int main() {
     int W[VECTOR_LEN] = {1, 1, 1};   // 权向量初值
     int Nc = 0; // 连续正确分类的样本个数
