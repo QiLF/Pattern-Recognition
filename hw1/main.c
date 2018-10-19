@@ -86,8 +86,8 @@ int main() {
     int k = 0;  // 训练样本序号
     int p = 1; // 训练步长
     int iterations = 0; // 迭代次数
-    int error_flag = 0; // 分类是否出错
-    char flag = 0; // 指示判决W*X的符号
+    int error_flag = 0; // 分类是否出错 取值'0'(正确) 或 '1'(错误)
+    char flag = 0; // 指示判决W*X的符号 取值'+'，'-'，或'0'
     int w_label = 1; // 指示权向量打印的下标， 初始为1， 每更新一次+1
     print_titles();
     while (Nc < N) {
@@ -107,12 +107,12 @@ int main() {
         if (k % N == 0) {
             iterations++;  // 每迭代一轮，计数器+1
         }
-        if (error_flag == 0) {
+        if (error_flag == 0) { // 分类未出错
             print_lines(k, flag, W, iterations, w_label);
-            Nc++;   // 分类未出错，连续分类正确的样本数目+1
-        } else {
+            Nc++;   // 连续分类正确的样本数目+1
+        } else {// 分类出错
             vectorLinearCombination(W, Dataset[k].v, 1, p * Dataset[k].pattern, VECTOR_LEN);//修正权向量
-            print_lines(k, flag, W, iterations, w_label);
+            print_lines(k, flag, W, iterations, w_label);   // 为了使表格正确， print_lines函数应放在此处
             w_label++;
             Nc = 0; // 连续分类正确的样本数目置 0
         }
